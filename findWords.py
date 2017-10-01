@@ -13,6 +13,23 @@ from selenium.webdriver.common.keys import Keys
 import time
 
 
+
+class findTheWords:
+	def __init__(self):
+		self.url = ""
+
+	def findAllWords(self, url):
+		self.url = url
+		browser = webdriver.Firefox()
+		browser.get("https://"+url)
+		print("teste")
+		time.sleep(10)
+		palavras = [browser.find_elements_by_tag_name('h1')]
+
+		print(len(palavras))
+
+
+
 class Ui_MainWindow(object):
 
     def setupUi(self, MainWindow):
@@ -53,7 +70,8 @@ class Ui_MainWindow(object):
         self.btFindWords.setFont(font)
         self.btFindWords.setObjectName("btFindWords")
         ##### Button Event ########
-        self.btFindWords.clicked.connect(self.clickMethod)
+        fTW = findTheWords()
+        self.btFindWords.clicked.connect(lambda:fTW.findAllWords(self.siteURL.text()))
         MainWindow.setCentralWidget(self.centralwidget)
         self.statusbar = QtWidgets.QStatusBar(MainWindow)
         self.statusbar.setObjectName("statusbar")
@@ -62,13 +80,7 @@ class Ui_MainWindow(object):
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
-        #self.connect(self.btFindWords, SIGNAL("clicked()"), userFindWords.findAllWords(userSiteUrl))
-
-    def clickMethod(self):
-    	    print(self.siteURL.text())
-    	    browser = webdriver.Firefox()
-    	    browser.get("https://"+self.siteURL.text())
-    	    time.sleep(10)
+        
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
@@ -87,4 +99,4 @@ if __name__ == "__main__":
     ui = Ui_MainWindow()
     ui.setupUi(MainWindow)
     MainWindow.show()
-    sys.exit(app.exec_())
+sys.exit(app.exec_())
