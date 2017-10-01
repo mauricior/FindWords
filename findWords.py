@@ -17,16 +17,63 @@ import time
 class findTheWords:
 	def __init__(self):
 		self.url = ""
+		self.allWords = []
+		self.end = 0
+
+
 
 	def findAllWords(self, url):
 		self.url = url
 		browser = webdriver.Firefox()
 		browser.get("https://"+url)
-		print("teste")
-		time.sleep(10)
-		palavras = [browser.find_elements_by_tag_name('h1')]
+		#Encontra todos os elementos com a tag <span></span>
+		#palavras_span = browser.find_elements_by_tag_name('span')
+		#Encontra todos os elementos com a tag <h1></h1>
+		#palavras_h1 = browser.find_elements_by_tag_name('h1')
+		#Encontra todos os elementos com a tag <a></a>
+		#palavras_a = browser.find_elements_by_tag_name('a')
+		#Encontra todos os elementos com a tag <div></div>
+		#palavras_div = browser.find_elements_by_tag_name('div')
+		#Encontra todos os elementos com a tag <body></body>
+		palavras_body = browser.find_elements_by_tag_name('body')
 
-		print(len(palavras))
+		#Para cada palavra printar as informaçoes
+		#for palavra in palavras_span:
+			#if palavra.text != '':
+				#print("Palavra: {palavrafinal}".format(palavrafinal=palavra.text))
+
+		#for palavra in palavras_h1:
+			#if palavra.text != '':
+				#print("Palavra: {palavrafinal}".format(palavrafinal=palavra.text))
+
+		#for palavra in palavras_a:
+			#if palavra.text != '':
+				#print("Palavra: {palavrafinal}".format(palavrafinal=palavra.text))
+
+		#for palavra in palavras_div:
+			#if palavra.text != '':
+				#print("Palavra: {palavrafinal}".format(palavrafinal=palavra.text))
+
+		#for palavra in palavras_body:
+			#if palavra.text != '':
+				#print("Palavra: {palavrafinal}".format(palavrafinal=palavra.text))
+
+		self.allWords = palavras_body
+		#Quando pesquisa por body, ele pega todas as palavras e coloca no index[0]
+		print(palavras_body[0].text)
+
+		browser.close()
+		self.end = 1
+
+	def searchedAllWords(self):
+		return self.end
+
+	def getAllWords(self):
+		return self.allWords
+
+
+		
+
 
 
 
@@ -41,6 +88,9 @@ class Ui_MainWindow(object):
         font.setItalic(True)
         font.setWeight(75)
         MainWindow.setFont(font)
+
+        
+
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.gridLayoutWidget = QtWidgets.QWidget(self.centralwidget)
@@ -69,9 +119,6 @@ class Ui_MainWindow(object):
         font.setPointSize(10)
         self.btFindWords.setFont(font)
         self.btFindWords.setObjectName("btFindWords")
-        ##### Button Event ########
-        fTW = findTheWords()
-        self.btFindWords.clicked.connect(lambda:fTW.findAllWords(self.siteURL.text()))
         MainWindow.setCentralWidget(self.centralwidget)
         self.statusbar = QtWidgets.QStatusBar(MainWindow)
         self.statusbar.setObjectName("statusbar")
@@ -79,6 +126,12 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
+
+        #INSTANCIA DA CLASSE
+        fTW = findTheWords()
+         ##### Button Event #######
+
+        self.btFindWords.clicked.connect(lambda:fTW.findAllWords(self.siteURL.text()))
 
         
 
